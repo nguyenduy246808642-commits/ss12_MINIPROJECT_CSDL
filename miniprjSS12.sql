@@ -122,6 +122,27 @@ END $$
 DELIMITER ;
 
 -- REQ_04
+DELIMITER $$
+
+CREATE PROCEDURE CreatePost(
+    IN p_user_id INT,
+    IN p_content TEXT,
+    OUT p_post_id INT
+)
+BEGIN
+
+    -- Thêm bài viết mới
+    INSERT INTO posts(user_id, content)
+    VALUES(p_user_id, p_content);
+
+    -- Lấy post_id vừa tạo
+    SET p_post_id = LAST_INSERT_ID();
+
+END $$
+
+DELIMITER ;
+
+-- REQ 05
 
 DELIMITER $$
 CREATE PROCEDURE GetFriendList(
@@ -141,6 +162,10 @@ BEGIN
     LIMIT p_limit
     OFFSET p_offset;
 END $$
+
+-- REQ 6
+CREATE INDEX idx_post_created_at
+ON posts(created_at);
 DELIMITER ;
 
 
